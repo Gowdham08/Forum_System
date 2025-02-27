@@ -5,10 +5,10 @@ import About from "./components/functionalcomponent/About";
 import Discussion from "./components/functionalcomponent/Discussion";
 import Story from "./components/functionalcomponent/Story";
 import Categories from "./components/functionalcomponent/Categories";
-import Signup from "./components/functionalcomponent/SignUp";
+import Signup from "./components/functionalcomponent/Signup";
 import Comment from "./components/functionalcomponent/Comment";
 import Post from "./components/functionalcomponent/Post";
-import Login from "./components/functionalcomponent/login";
+import Login from "./components/functionalcomponent/Login";
 import Home from "./components/functionalcomponent/Home";
 function App() {
   return (

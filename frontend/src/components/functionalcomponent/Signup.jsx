@@ -1,5 +1,5 @@
 import React from "react";
-import '../css/Signup.css'; // Make sure to create this file for styling
+import '../css/Signup.css'; 
 
 const Signup = () => {
     return (
