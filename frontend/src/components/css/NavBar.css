@@ -1,0 +1,77 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* Ensures vertical alignment */
+  padding: 10px 20px;
+  background: #fff;
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.nav-links li {
+  position: relative; /* Needed for dropdown positioning */
+  list-style: none;
+}
+
+.nav-item {
+  position: relative;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.dropdown {
+  position: absolute;
+  top: 100%; /* Places dropdown directly below Discussions */
+  left: 0;
+  background: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  padding: 10px 0;
+  display: none; /* Hidden by default */
+}
+
+.nav-links li:hover .dropdown {
+  display: block; /* Show on hover */
+}
+.dropdown li {
+  padding: 10px 15px;
+  white-space: nowrap;
+}
+.dropdown li:hover {
+  background: #f5f5f5;
+}
+.discussions {
+  position: relative;
+}
+
+.discussions:hover .dropdown {
+  display: block;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.signin {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+}
+
+.get-started {
+  background: black;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.get-started:hover {
+  background: #333;
+}
