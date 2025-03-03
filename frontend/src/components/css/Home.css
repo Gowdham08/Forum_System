@@ -1,47 +1,48 @@
-/* Home.css */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
+/* Apply full-page styling */
 body {
-    font-family: serif;
-    background-color: #f4f1ea;
-}
-
-.hero-section {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 100vh;
-    padding: 50px 100px;
-}
-
-.hero-content {
-    max-width: 50%;
-}
-
-.hero-content h1 {
-    font-size: 80px;
-    font-weight: bold;
+    font-family: 'Charter', Georgia, serif;
+    background-color: #fafaf2; /* Light beige background */
     color: #000;
-    line-height: 90px;
-}
-
-.hero-content p {
-    font-size: 22px;
-    color: #333;
-    margin: 20px 0;
-}
-
-.start-btn {
+  }
+  h1 {
+    font-size: 3rem;
+    font-weight: bold;
+  }
+  h2 {
+    font-size: 2rem;
+    font-weight: bold;
+  }
+  /* Center content */
+  .homepage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    padding: 2rem;
+  }
+  
+  /* Content container */
+  .content {
+    max-width: 600px;
+    text-align: left;
+  }
+  
+  
+p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+  }
+  
+  
+  button {
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 20px;
     background-color: black;
     color: white;
-    padding: 15px 30px;
-    font-size: 18px;
-    border: none;
-    cursor: pointer;
-    border-radius: 30px;
-}
-
+  }
+  button:hover {
+    background-color: #444;
+  }
+  

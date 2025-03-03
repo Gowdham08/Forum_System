@@ -1,16 +1,18 @@
 import React from "react";
-import "../css/Home.css";
+import { useNavigate } from "react-router-dom";
+import '../css/Home.css';
+const HomePage = () => {
+  const navigate = useNavigate();
 
-const Home = () => {
   return (
-    <div className="hero-section">
-      <div className="hero-content">
-        <h1>Build Innovation </h1>
+    <div className="homepage">
+      <div className="content">
+        <h1>Human stories & ideas</h1>
         <p>A place to read, write, and deepen your understanding</p>
-        <button className="start-btn">Start reading</button>
+        <button onClick={() => navigate("/login")}>Start reading</button>
       </div>
     </div>
   );
 };
 
-export default Home;
+export default HomePage;
