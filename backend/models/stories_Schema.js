@@ -7,13 +7,12 @@ const storySchema = new mongoose.Schema({
     author: { type: String, required: true },
     comments: [
         {
-            user: { type: String, required: true }, // User who commented
-            comment: { type: String, required: true }, // Comment text
-            createdAt: { type: Date, default: Date.now } // Timestamp
+            user: { type: String, required: true },
+            text: { type: String, required: true },
+            createdAt: { type: Date, default: Date.now }
         }
     ]
 }, { timestamps: true });
 
 const Story = mongoose.model("Story", storySchema);
-
 module.exports = Story;
