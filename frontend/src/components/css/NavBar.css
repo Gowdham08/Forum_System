@@ -1,68 +1,64 @@
+/* Navbar container */
 .navbar {
   display: flex;
   justify-content: space-between;
-  align-items: center; /* Ensures vertical alignment */
-  padding: 10px 20px;
+  align-items: center;
+  padding: 15px 20px;
   background: #fff;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 }
-.nav-links {
+
+/* Left section containing Home, Category, and Story */
+.nav-left {
   display: flex;
   align-items: center;
+}
+
+/* Navigation links */
+.nav-links {
+  display: flex;
   gap: 20px;
-}
-
-.nav-links li {
-  position: relative; /* Needed for dropdown positioning */
   list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
-.nav-item {
+/* Each nav item */
+.nav-links li {
   position: relative;
-  padding: 10px;
-  cursor: pointer;
 }
 
-.dropdown {
-  position: absolute;
-  top: 100%; /* Places dropdown directly below Discussions */
-  left: 0;
-  background: #fff;
-  border: 1px solid #ddd;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  padding: 10px 0;
-  display: none; /* Hidden by default */
-}
-
-.nav-links li:hover .dropdown {
-  display: block; /* Show on hover */
-}
-.dropdown li {
+/* Links styling */
+.nav-links a {
+  text-decoration: none;
+  font-weight: bold;
+  color: black;
   padding: 10px 15px;
-  white-space: nowrap;
-}
-.dropdown li:hover {
-  background: #f5f5f5;
-}
-.discussions {
-  position: relative;
+  border-radius: 20px;
+  transition: 0.3s ease-in-out;
 }
 
-.discussions:hover .dropdown {
-  display: block;
+/* Hover effect */
+.nav-links a:hover {
+  background: black;
+  color: white;
 }
 
+/* Right section containing Sign In & Get Started */
 .nav-right {
   display: flex;
   align-items: center;
   gap: 15px;
 }
 
+/* Sign In Link */
 .signin {
   text-decoration: none;
   color: black;
   font-weight: bold;
 }
 
+/* Get Started Button */
 .get-started {
   background: black;
   color: white;
@@ -70,6 +66,7 @@
   border: none;
   border-radius: 20px;
   cursor: pointer;
+  transition: 0.3s ease-in-out;
 }
 
 .get-started:hover {

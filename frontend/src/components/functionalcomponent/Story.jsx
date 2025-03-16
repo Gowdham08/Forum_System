@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { Link, useLocation } from "react-router-dom";
 import "./Story.css";
-import { Link } from "react-router-dom";
 
 const Story = () => {
   const [stories, setStories] = useState([]);
@@ -9,23 +9,32 @@ const Story = () => {
   const [newStory, setNewStory] = useState({ title: "", category: "", content: "", author: "" });
   const [searchTerm, setSearchTerm] = useState("");
 
+  // Get category from URL
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const selectedCategory = queryParams.get("category");
+
   useEffect(() => {
     fetchStories();
-  }, []);
-
-  const handleWrite = () => {
-    setIsWriting(true);
-  };
+  }, [selectedCategory]); // Re-fetch stories when category changes
 
   const fetchStories = async () => {
     try {
-      const response = await axios.get(`http://localhost:3001/stories`);
-      console.log("Fetched Stories:", response.data);
-      setStories(response.data);
+      const response = await axios.get("http://localhost:3001/stories");
+      let filteredStories = response.data;
+
+      // Filter stories if a category is selected
+      if (selectedCategory) {
+        filteredStories = filteredStories.filter((story) => story.category === selectedCategory);
+      }
+
+      setStories(filteredStories);
     } catch (error) {
       console.error("Error fetching stories:", error);
     }
   };
+
+  const handleWrite = () => setIsWriting(true);
 
   const handlePublish = async () => {
     if (!newStory.title || !newStory.category || !newStory.content || !newStory.author) {
@@ -34,11 +43,9 @@ const Story = () => {
     }
 
     try {
-      const response = await axios.post(`http://localhost:3001/stories`, newStory, {
+      await axios.post("http://localhost:3001/stories", newStory, {
         headers: { "Content-Type": "application/json" },
       });
-
-      console.log("Story Published Successfully:", response.data);
       fetchStories();
       setNewStory({ title: "", category: "", content: "", author: "" });
       setIsWriting(false);
@@ -56,6 +63,16 @@ const Story = () => {
     }
   };
 
+  const handleRemoveStory = async (storyId) => {
+    try {
+      await axios.delete(`http://localhost:3001/stories/${storyId}`);
+      setStories(stories.filter((story) => story._id !== storyId));
+      console.log("✅ Story deleted successfully");
+    } catch (error) {
+      console.error("❌ Error deleting story:", error);
+    }
+  };
+
   if (isWriting) {
     return (
       <div className="editor-container">
@@ -66,13 +83,37 @@ const Story = () => {
           value={newStory.title}
           onChange={(e) => setNewStory({ ...newStory, title: e.target.value })}
         />
-        <input
-          type="text"
-          placeholder="Category"
+        <select
           className="editor-category"
           value={newStory.category}
           onChange={(e) => setNewStory({ ...newStory, category: e.target.value })}
-        />
+        >
+          <option value="">Select a Category</option>
+          {[
+            "Technology",
+            "Social Media",
+            "Culture",
+            "History",
+            "Philosophy",
+            "Climate",
+            "Mental Health",
+            "Politics",
+            "Economy",
+            "Art",
+            "Space Exploration",
+            "Education",
+            "Sports",
+            "Business",
+            "AI and Ethics",
+            "Health",
+            "Public Opinion",
+            "Science",
+          ].map((cat, index) => (
+            <option key={index} value={cat}>
+              {cat}
+            </option>
+          ))}
+        </select>
         <input
           type="text"
           placeholder="Author"
@@ -86,9 +127,7 @@ const Story = () => {
           value={newStory.content}
           onChange={(e) => setNewStory({ ...newStory, content: e.target.value })}
         />
-        <button className="publish-button" onClick={handlePublish}>
-          Publish
-        </button>
+        <button className="publish-button" onClick={handlePublish}>Publish</button>
       </div>
     );
   }
@@ -103,22 +142,31 @@ const Story = () => {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <button onClick={handleSearch}>Search</button>
+        <button className="search-button" onClick={handleSearch}>Search</button>
         <button className="write-button" onClick={handleWrite}>Write</button>
       </header>
+
       <main className="story-main">
+        {selectedCategory && <h2 className="filtered-category">Showing stories for: {selectedCategory}</h2>}
         <div className="story-feed">
           {stories.length === 0 ? (
-            <p>No stories yet. Start writing!</p>
+            <p className="no-stories">No stories yet. Start writing!</p>
           ) : (
-            stories.map((story, index) => (
-              <Link to ={'/stories/${story_id}'}key={index} className="story-card">
-    
-                <h2>{story.title}</h2>
-                <p>{story.content.substring(0,100)}</p>
-                <span>Category: {story.category}</span>
-                <span>By {story.author} - {story.createdAt ? new Date(story.createdAt).toDateString() : "No Date Available"}</span>
-            </Link>
+            stories.map((story) => (
+              <div key={story._id} className="story-card">
+                <Link to={`/stories/${story._id}`} className="story-link">
+                  <h2 className="story-title">{story.title}</h2>
+                  <p className="story-snippet">{story.content.substring(0, 120)}...</p>
+                  <div className="story-meta">
+                    <span className="story-category">{story.category}</span>
+                    <span className="story-author">By {story.author}</span>
+                    <span className="story-date">
+                      {story.createdAt ? new Date(story.createdAt).toDateString() : "No Date Available"}
+                    </span>
+                  </div>
+                </Link>
+                <button className="delete-button" onClick={() => handleRemoveStory(story._id)}>🗑 Remove</button>
+              </div>
             ))
           )}
         </div>

@@ -9,7 +9,7 @@ const NavBar = () => {
                 <ul className="nav-links">
                     <li><Link to="/">Home</Link></li>
                     <li className="nav-item discussions">
-                        <Link to="/nof">Notification</Link>
+                        <Link to="/cat">Category</Link>
                     </li>
                     <li ><Link to="/stories">Story</Link></li>
                 </ul>

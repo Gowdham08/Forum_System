@@ -1,78 +1,105 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
 function Signup() {
     const navigate = useNavigate();
-    const [firstName, setFName] = useState("");
-    const [lastName, setLName] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPass] = useState("");
-    const [phoneNumber, setPhoneno] = useState("");
-    const handleSignUp = async (event) => {
-        event.preventDefault();
-            const req = await axios.post("http://localhost:3001/signup", {
-                firstName,
-                lastName,
-                email,
-                password,
-                phoneNumber,
-            });
+    const [formData, setFormData] = useState({
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: "",
+        phoneNumber: "",
+    });
 
-            const { message, isSignup } = req.data;
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
+    const [success, setSuccess] = useState("");
 
-            alert(message);
-            if (isSignup) {
-                navigate("/login");
-            }
-            else{
-                alert(message);
-            }
+    // Handle input changes
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+        setError(""); // Clear previous error
+        setSuccess(""); // Clear success on new input
     };
 
+    const handleSignUp = async (event) => {
+        event.preventDefault();
+        setLoading(true);
+        setError("");
+        setSuccess("");
+    
+        try {
+            const res = await axios.post("http://localhost:3001/signup", formData);
+            const { message, isSignup } = res.data;
+    
+            if (isSignup) {
+                window.alert("✅ Signup successful!");
+                navigate("/login");
+            } else {
+                setSuccess(message);
+            }
+        } catch (err) {
+            setError(err.response?.data?.message || "Signup failed. Please try again.");
+        } finally {
+            setLoading(false);
+        }
+    };
+    
     return (
-        <div className="login-container">  {/* Use the same class as login */}
-            <div className="login-box">  
+        <div className="login-container">
+            <div className="login-box">
                 <h2>Sign Up</h2>
+
+                {error && <p className="text-red-500">{error}</p>}
+                {success && <p className="text-green-500">{success}</p>}
+
                 <form onSubmit={handleSignUp}>
                     <input
                         type="text"
+                        name="firstName"
                         placeholder="First Name"
-                        value={firstName}
-                        onChange={(e) => setFName(e.target.value)}
+                        value={formData.firstName}
+                        onChange={handleChange}
                         required
                     />
                     <input
                         type="text"
+                        name="lastName"
                         placeholder="Last Name"
-                        value={lastName}
-                        onChange={(e) => setLName(e.target.value)}
+                        value={formData.lastName}
+                        onChange={handleChange}
                         required
                     />
                     <input
                         type="email"
+                        name="email"
                         placeholder="Email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        value={formData.email}
+                        onChange={handleChange}
                         required
                     />
                     <input
                         type="password"
+                        name="password"
                         placeholder="Password"
-                        value={password}
-                        onChange={(e) => setPass(e.target.value)}
+                        value={formData.password}
+                        onChange={handleChange}
                         required
                     />
                     <input
                         type="text"
+                        name="phoneNumber"
                         placeholder="Mobile Number"
-                        value={phoneNumber}
-                        onChange={(e) => setPhoneno(e.target.value)}
+                        value={formData.phoneNumber}
+                        onChange={handleChange}
                         required
                     />
-                    <button type="submit">Sign Up</button>
+                    <button type="submit" disabled={loading}>
+                        {loading ? "Signing Up..." : "Sign Up"}
+                    </button>
                 </form>
+
                 <div className="login-redirect">
                     <p>Already have an account? <Link to="/login">Login</Link></p>
                 </div>

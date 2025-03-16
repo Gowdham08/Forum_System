@@ -1,62 +1,97 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-
-
+import "./StoryDetails.css"; // Ensure you have a CSS file for styling
 
 const StoryDetails = () => {
     const { id } = useParams();
     const [story, setStory] = useState(null);
     const [comment, setComment] = useState("");
-    const [author, setAuthor] = useState("Guest"); // Change this as per authentication
+    const [author, setAuthor] = useState("Guest"); // Default author name
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
         fetchStory();
-    }, []);
+    }, [id]);
 
     const fetchStory = async () => {
         try {
             const response = await axios.get(`http://localhost:3001/stories/${id}`);
-            setStory(response.data);
+            console.log("📜 Fetched Story:", response.data); // Debugging
+            setStory({ ...response.data }); // ✅ Ensure React detects the change
         } catch (error) {
-            console.error("Error fetching story:", error);
+            console.error("❌ Error fetching story:", error);
         }
     };
 
     const handleCommentSubmit = async () => {
-        if (!comment.trim()) return;
+        if (!comment.trim()) {
+            alert("🚨 Comment cannot be empty!");
+            return;
+        }
 
+        setIsSubmitting(true);
         try {
-            await axios.post(`http://localhost:3001/stories/${id}/comments`, { user: author, text: comment });
-            setComment("");
-            fetchStory();
+            const response = await axios.post(`http://localhost:3001/stories/${id}/comments`, {
+                user: author,
+                text: comment, // ✅ Ensuring correct property name
+            });
+
+            console.log("✅ Comment added:", response.data);
+
+            setComment(""); // ✅ Clear input field after submitting
+            fetchStory(); // ✅ Refresh comments
         } catch (error) {
-            console.error("Error adding comment:", error);
+            console.error("❌ Error adding comment:", error.response?.data || error.message);
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
     return (
-        <div>
+        <div className="story-container">
             {story ? (
-                <div>
-                    <h1>{story.title}</h1>
-                    <p>{story.content}</p>
-                    <p>By: {story.author}</p>
-                    <h3>Comments</h3>
-                    {story.comments.length > 0 ? (
-                        story.comments.map((c, index) => (
-                            <p key={index}><strong>{c.user}:</strong> {c.text}</p>
-                        ))
-                    ) : (
-                        <p>No comments yet</p>
-                    )}
-                    <input
-                        type="text"
-                        placeholder="Add a comment..."
-                        value={comment}
-                        onChange={(e) => setComment(e.target.value)}
-                    />
-                    <button onClick={handleCommentSubmit}>Submit</button>
+                <div className="story-content">
+                    <h1 className="story-title">{story.title}</h1>
+                    <p className="story-author">By {story.author}</p>
+                    <p className="story-body">{story.content}</p>
+
+                    <h3 className="comments-header">Comments</h3>
+                    <div className="comments-section">
+                        {story.comments?.length > 0 ? (
+                            story.comments.map((c, index) => (
+                                <div key={index} className="comment">
+                                    <p><strong>{c.user}:</strong> {c.text}</p> {/* ✅ Fixed text property */}
+                                </div>
+                            ))
+                        ) : (
+                            <p>No comments yet</p>
+                        )}
+                    </div>
+                    <div className="comment-box">
+                        <input
+                            type="text"
+                            placeholder="Your name"
+                            className="comment-author-input"
+                            value={author}
+                            onChange={(e) => setAuthor(e.target.value)}
+                        />
+                        <textarea
+                            placeholder="Add a comment..."
+                            className="comment-box"
+                            
+                            value={comment}
+                            onChange={(e) => setComment(e.target.value)}
+                        />
+                        <button 
+                            className="comment-submit-button" 
+                            onClick={handleCommentSubmit} 
+                            disabled={isSubmitting}
+                        >
+                            {isSubmitting ? "Submitting..." : "Submit"}
+                        </button>
+                    </div>
+              
                 </div>
             ) : (
                 <p>Loading...</p>

@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import NavBar from "./components/functionalcomponent/NavBar";
-import Notifications from "../src/components/functionalcomponent/Notifications";
+import Category from "./components/functionalcomponent/Category";
 import Story from "./components/functionalcomponent/Story";
 import StoryDetails from "./components/functionalcomponent/StoryDetails"; // Add this import
 import Signup from "./components/functionalcomponent/Signup";
@@ -15,8 +15,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Home/>} />
         <Route path="/stories" element={<Story />} />
-        <Route path="/story/:id" element={<StoryDetails/>} />
-        <Route path="/nof" element={<Notifications/>} />
+        <Route path="/stories/:id" element={<StoryDetails/>} />
+        <Route path="/cat" element={<Category/>} />
         <Route path="/signup" element={<Signup/>} />
         <Route path="/login" element={<Login/>} />
       </Routes>
