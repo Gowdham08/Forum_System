@@ -8,26 +8,26 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 80vh; /* Moves form higher */
+    height: 80vh; 
   }
   
   .login-box {
-    background: white;
+    background: rgb(151, 88, 88);
     padding: 50px;
     border-radius: 10px;
-    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
-    width: 500px; /* Increased width */
+    box-shadow: 0px 4px 15px rgba(76, 42, 42, 0.1);
+    width: 500px; 
     text-align: center;
   }
   
   .login-box h2 {
-    font-size: 24px; /* Bigger heading */
+    font-size: 24px;
   }
   
   .login-box input {
     width: 100%;
     padding: 14px;
-    font-size: 18px; /* Bigger text */
+    font-size: 18px; 
     margin-bottom: 15px;
   }
   
@@ -35,8 +35,8 @@
     width: 100%;
     padding: 14px;
     font-size: 18px;
-    background: blue;
-    color: white;
+    background: rgb(23, 17, 23);
+    color: rgb(250, 253, 247);
     border: none;
     cursor: pointer;
   }

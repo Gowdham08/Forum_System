@@ -7,12 +7,12 @@ import { useNavigate } from "react-router-dom";
 function Login() {
     const [email, setEmail] = useState("");
     const [password, setPass] = useState("");
-    const [error, setError] = useState("");  // Store error messages
+    const [error, setError] = useState("");  
     const navigate = useNavigate();
 
     const handleLogin = async (event) => {
         event.preventDefault();
-        setError("");  // Reset error on new login attempt
+        setError("");  
 
         try {
             const response = await axios.post("http://localhost:3001/login", {
@@ -21,7 +21,7 @@ function Login() {
             });
 
             alert(response.data.message);
-            navigate('/stories'); // Redirect on successful login
+            navigate('/stories'); 
 
         } catch (error) {
             if (error.response) {
@@ -36,7 +36,7 @@ function Login() {
         <div className="login-container">
             <div className="login-box">
                 <h2>Login Page</h2>
-                {error && <p className="error-message">{error}</p>}  {/* Display error messages */}
+                {error && <p className="error-message">{error}</p>} 
                 <form onSubmit={handleLogin}>
                     <input
                         type="email"

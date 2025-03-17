@@ -9,21 +9,20 @@ const Story = () => {
   const [newStory, setNewStory] = useState({ title: "", category: "", content: "", author: "" });
   const [searchTerm, setSearchTerm] = useState("");
 
-  // Get category from URL
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const selectedCategory = queryParams.get("category");
 
   useEffect(() => {
     fetchStories();
-  }, [selectedCategory]); // Re-fetch stories when category changes
+  }, [selectedCategory]); 
 
   const fetchStories = async () => {
     try {
       const response = await axios.get("http://localhost:3001/stories");
       let filteredStories = response.data;
 
-      // Filter stories if a category is selected
+    
       if (selectedCategory) {
         filteredStories = filteredStories.filter((story) => story.category === selectedCategory);
       }
@@ -67,9 +66,9 @@ const Story = () => {
     try {
       await axios.delete(`http://localhost:3001/stories/${storyId}`);
       setStories(stories.filter((story) => story._id !== storyId));
-      console.log("✅ Story deleted successfully");
+      console.log("Story deleted successfully");
     } catch (error) {
-      console.error("❌ Error deleting story:", error);
+      console.error(" Error deleting story:", error);
     }
   };
 

@@ -1,7 +1,7 @@
-/* Apply full-page styling */
+
 body {
     font-family: 'Charter', Georgia, serif;
-    background-color: #fafaf2; /* Light beige background */
+    background-color: #fafaf2; 
     color: #000;
   }
   h1 {
@@ -12,7 +12,7 @@ body {
     font-size: 2rem;
     font-weight: bold;
   }
-  /* Center content */
+  
   .homepage {
     display: flex;
     align-items: center;
@@ -21,7 +21,6 @@ body {
     padding: 2rem;
   }
   
-  /* Content container */
   .content {
     max-width: 600px;
     text-align: left;

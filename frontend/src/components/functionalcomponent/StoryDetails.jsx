@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import "./StoryDetails.css"; // Ensure you have a CSS file for styling
+import "./StoryDetails.css"; 
 
 const StoryDetails = () => {
     const { id } = useParams();
     const [story, setStory] = useState(null);
     const [comment, setComment] = useState("");
-    const [author, setAuthor] = useState("Guest"); // Default author name
+    const [author, setAuthor] = useState("Guest");
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
@@ -17,16 +17,16 @@ const StoryDetails = () => {
     const fetchStory = async () => {
         try {
             const response = await axios.get(`http://localhost:3001/stories/${id}`);
-            console.log("📜 Fetched Story:", response.data); // Debugging
-            setStory({ ...response.data }); // ✅ Ensure React detects the change
+            console.log(" Fetched Story:", response.data); 
+            setStory({ ...response.data }); 
         } catch (error) {
-            console.error("❌ Error fetching story:", error);
+            console.error(" Error fetching story:", error);
         }
     };
 
     const handleCommentSubmit = async () => {
         if (!comment.trim()) {
-            alert("🚨 Comment cannot be empty!");
+            alert(" Comment cannot be empty!");
             return;
         }
 
@@ -34,15 +34,15 @@ const StoryDetails = () => {
         try {
             const response = await axios.post(`http://localhost:3001/stories/${id}/comments`, {
                 user: author,
-                text: comment, // ✅ Ensuring correct property name
+                text: comment,
             });
 
-            console.log("✅ Comment added:", response.data);
+            console.log(" Comment added:", response.data);
 
-            setComment(""); // ✅ Clear input field after submitting
-            fetchStory(); // ✅ Refresh comments
+            setComment("");
+            fetchStory();
         } catch (error) {
-            console.error("❌ Error adding comment:", error.response?.data || error.message);
+            console.error(" Error adding comment:", error.response?.data || error.message);
         } finally {
             setIsSubmitting(false);
         }
@@ -61,7 +61,7 @@ const StoryDetails = () => {
                         {story.comments?.length > 0 ? (
                             story.comments.map((c, index) => (
                                 <div key={index} className="comment">
-                                    <p><strong>{c.user}:</strong> {c.text}</p> {/* ✅ Fixed text property */}
+                                    <p><strong>{c.user}:</strong> {c.text}</p> 
                                 </div>
                             ))
                         ) : (
@@ -83,15 +83,15 @@ const StoryDetails = () => {
                             value={comment}
                             onChange={(e) => setComment(e.target.value)}
                         />
-                        <button 
-                            className="comment-submit-button" 
-                            onClick={handleCommentSubmit} 
+                        <button
+                            className="comment-submit-button"
+                            onClick={handleCommentSubmit}
                             disabled={isSubmitting}
                         >
                             {isSubmitting ? "Submitting..." : "Submit"}
                         </button>
                     </div>
-              
+        
                 </div>
             ) : (
                 <p>Loading...</p>

@@ -3,6 +3,7 @@ import { Link, Navigate } from "react-router-dom";
 import "../css/NavBar.css";
 
 const NavBar = () => {
+    
     return (
         <nav className="navbar">
             <div className="nav-left">
@@ -22,5 +23,4 @@ const NavBar = () => {
         </nav>
     );
 };
-
 export default NavBar;

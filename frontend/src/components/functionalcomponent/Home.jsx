@@ -7,7 +7,7 @@ const HomePage = () => {
   return (
     <div className="homepage">
       <div className="content">
-        <h1>Human stories & ideas</h1>
+        <h1>Creation & Generation</h1>
         <p>A place to read, write, and deepen your understanding</p>
         <button onClick={() => navigate("/login")}>Start reading</button>
       </div>
