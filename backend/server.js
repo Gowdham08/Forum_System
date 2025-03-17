@@ -15,7 +15,6 @@ app.use(express.urlencoded({ extended: true }));
 
 const PORT = 3001;
 
-// CORS Configuration
 app.use(
     cors({
         origin: "http://localhost:5173",
@@ -24,18 +23,18 @@ app.use(
     })
 );
 
-// Connect to MongoDB
+
 mongoose
     .connect(process.env.MONGODB_URL)
-    .then(() => console.log("✅ MongoDB Connected Successfully"))
-    .catch((err) => console.error("❌ Database Connection Failed:", err));
+    .then(() => console.log(" MongoDB Connected Successfully"))
+    .catch((err) => console.error(" Database Connection Failed:", err));
 
-// Root Route
+
 app.get("/", (req, res) => {
     res.send("<h1>Server is Running!</h1>");
 });
 
-// Signup Route
+
 app.post("/signup", async (req, res) => {
     try {
         const { firstName, lastName, email, password, phoneNumber } = req.body;
@@ -60,14 +59,14 @@ app.post("/signup", async (req, res) => {
         });
 
         await newUser.save();
-        res.status(201).json({ message: "✅ Signup successful", isSignup: true });
+        res.status(201).json({ message: " Signup successful", isSignup: true });
     } catch (error) {
-        console.error("❌ Signup error:", error);
+        console.error(" Signup error:", error);
         res.status(500).json({ message: "Signup failed", isSignup: false });
     }
 });
 
-// Login Route
+
 app.post("/login", async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -78,7 +77,7 @@ app.post("/login", async (req, res) => {
         }
 
         res.json({
-            message: "✅ Login successful",
+            message: "Login successful",
             user: {
                 id: user._id,
                 firstName: user.firstName,
@@ -88,12 +87,12 @@ app.post("/login", async (req, res) => {
             },
         });
     } catch (error) {
-        console.error("❌ Login error:", error);
+        console.error(" Login error:", error);
         res.status(500).json({ message: "Server error" });
     }
 });
 
-// Create Story
+
 app.post("/stories", async (req, res) => {
     try {
         const { title, category, content, author } = req.body;
@@ -105,23 +104,23 @@ app.post("/stories", async (req, res) => {
         await newStory.save();
         res.status(201).json(newStory);
     } catch (error) {
-        console.error("❌ Error creating story:", error);
+        console.error("Error creating story:", error);
         res.status(500).json({ error: "Failed to create story" });
     }
 });
 
-// Get All Stories
+
 app.get("/stories", async (req, res) => {
     try {
         const stories = await Story.find().sort({ createdAt: -1 });
         res.status(200).json(stories);
     } catch (error) {
-        console.error("❌ Error fetching stories:", error);
+        console.error(" Error fetching stories:", error);
         res.status(500).json({ error: "Failed to fetch stories" });
     }
 });
 
-// Get Single Story by ID
+
 app.get("/stories/:id", async (req, res) => {
     try {
         const story = await Story.findById(req.params.id);
@@ -130,12 +129,12 @@ app.get("/stories/:id", async (req, res) => {
         }
         res.status(200).json(story);
     } catch (err) {
-        console.error("❌ Error fetching story:", err);
+        console.error(" Error fetching story:", err);
         res.status(500).json({ error: "Failed to fetch story" });
     }
 });
 
-// ✅ ADD COMMENT TO STORY ✅
+
 app.post("/stories/:storyId/comments", async (req, res) => {
     try {
         const { storyId } = req.params;
@@ -153,26 +152,25 @@ app.post("/stories/:storyId/comments", async (req, res) => {
         story.comments.push({ user, text });
         await story.save();
 
-        res.status(201).json({ message: "✅ Comment added successfully", story });
+        res.status(201).json({ message: " Comment added successfully", story });
     } catch (error) {
-        console.error("❌ Error adding comment:", error);
+        console.error(" Error adding comment:", error);
         res.status(500).json({ error: "Failed to add comment" });
     }
 });
 
-// 🔴 DELETE STORY ROUTE
 app.delete("/stories/:id", async (req, res) => {
     try {
         const deletedStory = await Story.findByIdAndDelete(req.params.id);
         if (!deletedStory) {
             return res.status(404).json({ message: "Story not found" });
         }
-        res.status(200).json({ message: "✅ Story deleted successfully" });
+        res.status(200).json({ message: " Story deleted successfully" });
     } catch (error) {
-        console.error("❌ Error deleting story:", error);
+        console.error(" Error deleting story:", error);
         res.status(500).json({ message: "Failed to delete story" });
     }
 });
 
 // Start Server
-app.listen(PORT, () => console.log(`🚀 Server started on port ${PORT}`));
+app.listen(PORT, () => console.log(` Server started on port ${PORT}`));
